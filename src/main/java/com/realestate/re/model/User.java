@@ -58,7 +58,7 @@ public class User implements UserDetails {
 
 
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	@JsonIgnore
 	private Set<Property> Property = new HashSet<>();
 

@@ -36,6 +36,7 @@ public class AmentiesServiceImpl implements AmentiesService {
     @Override
     public Amenties updateAmenties(Amenties amenties) {
         Amenties amenties1 = new Amenties();
+        amenties1.setAmenId(amenties.getAmenId());
         amenties1.setGardens(amenties.getGardens());
         amenties1.setGym(amenties.getGym());
         amenties1.setHospitals(amenties.getHospitals());
@@ -48,6 +49,7 @@ public class AmentiesServiceImpl implements AmentiesService {
         amenties1.setSecurity(amenties.getSecurity());
         amenties1.setShoppingMall(amenties.getShoppingMall());
         amenties1.setWaterSupply(amenties.getWaterSupply());
+        amenties1.setProperty(amenties.getProperty());
         return this.amentiesRepository.save(amenties1);
     }
 

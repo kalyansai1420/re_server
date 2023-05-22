@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.realestate.re.helper.ResourceFoundException;
 import com.realestate.re.helper.ResourceNotFoundException;
 import com.realestate.re.model.re.Property;
 import com.realestate.re.repo.PropertyRepository;
@@ -22,7 +23,17 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property addProperty(Property property) {
-        return this.propertyRepository.save(property);
+        
+        Property local = this.propertyRepository.findBypName(property.getpName());
+
+        if (local != null) {
+            throw new ResourceFoundException("Property already exists");
+        } else {
+            local = this.propertyRepository.save(property);
+        }
+
+        
+        return local;
     }
 
     @Override
@@ -63,6 +74,7 @@ public class PropertyServiceImpl implements PropertyService {
         property1.setpPropertyType(property.getpPropertyType());
         property1.setpRoomFloor(property.getpRoomFloor());
         property1.setpTotalFloor(property.getpTotalFloor());
+        property1.setCreatedAt(property.getCreatedAt());
         return this.propertyRepository.save(property1);
     }
 

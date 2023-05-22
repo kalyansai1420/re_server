@@ -39,6 +39,7 @@ public class ImageServiceImpl implements ImageService {
         Image image1 = new Image();
         image1.setiId(image.getiId());
         image1.setiUrl(image.getiUrl());
+        image1.setProperty(image.getProperty());
         return this.imageRepository.save(image1);
     }
 

@@ -65,7 +65,7 @@ public class PropertyController {
     }
 
     //get property
-    @GetMapping("{propertyId}")
+    @GetMapping("/{propertyId}")
     public Property getProperty(@PathVariable("propertyId") Long propertyId) {
         return this.propertyService.getProperty(propertyId);
     }

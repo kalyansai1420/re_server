@@ -20,6 +20,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address addAddress(Address address) {
+        
         return this.addressRepository.save(address);
     }
 
@@ -37,6 +38,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address updateAddress(Address address) {
         Address address1 = new Address();
+        address1.setaId(address.getaId());
         address1.setProperty(address.getProperty());
         address1.setaArea(address.getaArea());
         address1.setaCity(address.getaCity());
