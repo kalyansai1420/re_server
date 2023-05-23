@@ -53,12 +53,7 @@ public class PropertyServiceImpl implements PropertyService {
                 () -> new ResourceNotFoundException("Property", " Id ", pId));;
         
         property1.setpId(property.getpId());
-        property1.setAddress(property.getAddress());
-        property1.setAmenties(property.getAmenties());
-        property1.setImage(property.getImage());
         property1.setUser(property.getUser());
-        property1.setCreatedAt(property.getCreatedAt());
-        property1.setUpdatedAt(property.getUpdatedAt());
         property1.setpAgeOfConstruction(property.getpAgeOfConstruction());
         property1.setpArea(property.getpArea());
         property1.setpBalcony(property.getpBalcony());
@@ -74,7 +69,21 @@ public class PropertyServiceImpl implements PropertyService {
         property1.setpPropertyType(property.getpPropertyType());
         property1.setpRoomFloor(property.getpRoomFloor());
         property1.setpTotalFloor(property.getpTotalFloor());
-        property1.setCreatedAt(property.getCreatedAt());
+        property1.setGardens(property.getGardens());
+        property1.setGym(property.getGym());
+        property1.setHospitals(property.getHospitals());
+        property1.setLift(property.getLift());
+        property1.setMarketArea(property.getMarketArea());
+        property1.setParkingArea(property.getParkingArea());
+        property1.setPlayground(property.getPlayground());
+        property1.setPowerBackup(property.getPowerBackup());
+        property1.setSchools(property.getSchools());
+        property1.setSecurity(property.getSecurity());
+        property1.setShoppingMall(property.getShoppingMall());
+        property1.setWaterSupply(property.getWaterSupply());
+        property1.setSaved(property.getSaved());
+        property1.setpBHK(property.getpBHK());
+        property1.setpPhoto(property.getpPhoto());
         return this.propertyRepository.save(property1);
     }
 

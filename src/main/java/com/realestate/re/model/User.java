@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,15 +14,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.realestate.re.model.re.Property;
+import com.realestate.re.model.re.Saved;
 
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "uId")
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
@@ -38,13 +40,13 @@ public class User implements UserDetails {
 	private boolean enabled = true;
 
 	public User() {
-
+		super();
 	}
+
 	// user to role
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
-
 
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
@@ -54,14 +56,12 @@ public class User implements UserDetails {
 		this.userRoles = userRoles;
 	}
 
-
-
-
-	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	@JsonIgnore
+	// one user has many properties
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@JsonIgnoreProperties("user")
 	private Set<Property> Property = new HashSet<>();
 
+	@JsonIgnore
 	public Set<Property> getProperty() {
 		return Property;
 	}
@@ -69,8 +69,19 @@ public class User implements UserDetails {
 	public void setProperty(Set<Property> property) {
 		Property = property;
 	}
-	
 
+	// one user has one saved table
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonIgnore
+	private Saved saved;
+
+	public Saved getSaved() {
+		return saved;
+	}
+
+	public void setSaved(Saved saved) {
+		this.saved = saved;
+	}
 
 	public User(Long uId, String username, String email, String phonenumber, String password, boolean enabled) {
 		super();
@@ -122,10 +133,6 @@ public class User implements UserDetails {
 		this.phonenumber = phonenumber;
 	}
 
-	
-
-	
-
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -138,9 +145,7 @@ public class User implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		Set<Authority> set = new HashSet<>();
-		this.userRoles.forEach(userRole -> 
-			set.add(new Authority(userRole.getRole().getRoleName()))
-		);
+		this.userRoles.forEach(userRole -> set.add(new Authority(userRole.getRole().getRoleName())));
 
 		return set;
 
@@ -161,8 +166,8 @@ public class User implements UserDetails {
 		return true;
 	}
 
-    // public User orElseThrow(Object object) {
-    //     return null;
-    // }
+	// public User orElseThrow(Object object) {
+	// return null;
+	// }
 
 }

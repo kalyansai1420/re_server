@@ -1,9 +1,9 @@
-package com.realestate.re.repo;
+// package com.realestate.re.repo;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.realestate.re.model.re.Amenties;
+// import com.realestate.re.model.re.Amenties;
 
-public interface AmentiesRepository extends JpaRepository<Amenties,Long>{
+// public interface AmentiesRepository extends JpaRepository<Amenties,Long>{
     
-}
+// }
