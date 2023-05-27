@@ -66,6 +66,11 @@ public class PropertyController {
         property1.setSaved(property.getSaved());
         property1.setpBHK(property.getpBHK());
         property1.setpPhoto(property.getpPhoto());
+        property1.setaArea(property.getaArea());
+        property1.setaCity(property.getaCity());
+        property1.setaLandmark(property.getaLandmark());
+        property1.setaPincode(property.getaPincode());
+        property1.setaState(property.getaState());
         return ResponseEntity.ok(this.propertyService.addProperty(property1));
     }
 

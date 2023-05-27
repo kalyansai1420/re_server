@@ -63,6 +63,13 @@ public class Property {
     private String aPincode;
     private String pPhoto;
 
+    // private String pLocation;
+    // private String pLandmark;
+    // private String pCity;
+    // private String pState;
+    // private String pPincode;
+    
+
     //many property under one user
     @JoinColumn(name = "uId")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -499,5 +506,55 @@ public class Property {
     public void setSaved(Set<Saved> saved) {
         this.saved = saved;
     }
+
+
+    // public String getpLocation() {
+    //     return pLocation;
+    // }
+
+
+    // public void setpLocation(String pLocation) {
+    //     this.pLocation = pLocation;
+    // }
+
+
+    // public String getpLandmark() {
+    //     return pLandmark;
+    // }
+
+
+    // public void setpLandmark(String pLandmark) {
+    //     this.pLandmark = pLandmark;
+    // }
+
+
+    // public String getpCity() {
+    //     return pCity;
+    // }
+
+
+    // public void setpCity(String pCity) {
+    //     this.pCity = pCity;
+    // }
+
+
+    // public String getpState() {
+    //     return pState;
+    // }
+
+
+    // public void setpState(String pState) {
+    //     this.pState = pState;
+    // }
+
+
+    // public String getpPincode() {
+    //     return pPincode;
+    // }
+
+
+    // public void setpPincode(String pPincode) {
+    //     this.pPincode = pPincode;
+    // }
 
 }
