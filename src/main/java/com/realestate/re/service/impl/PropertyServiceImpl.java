@@ -1,6 +1,8 @@
 package com.realestate.re.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -104,6 +106,16 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Set<Property> getProperties() {
         return new HashSet<>(this.propertyRepository.findAll());
+    }
+
+    @Override
+    public List<Object[]> countPropertiesByType() {
+        return propertyRepository.countPropertiesByType();
+    }
+
+    @Override
+    public List<Map<String, Object>> countPropertiesByCity() {
+        return propertyRepository.countPropertiesByCity();
     }
     
 }

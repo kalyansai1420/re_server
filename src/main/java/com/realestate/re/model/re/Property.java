@@ -3,6 +3,8 @@ package com.realestate.re.model.re;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,6 +39,8 @@ public class Property {
     private String pFacing;
     private String pAgeOfConstruction;
     private String pArea;
+
+    @Column(length = 1200)
     private String pDescription;
     private String pBedroom;
     private String pBalcony;

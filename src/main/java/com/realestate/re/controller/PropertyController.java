@@ -1,5 +1,7 @@
 package com.realestate.re.controller;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +103,22 @@ public class PropertyController {
     @DeleteMapping("/{propertyId}")
     public ResponseEntity<ApiResponse> deleteProperty(@PathVariable("propertyId") Long propertyId) {
         this.propertyService.deleteProperty(propertyId);
-        return new ResponseEntity(new ApiResponse("Property deleted successfully",true),HttpStatus.OK);
+        return new ResponseEntity(new ApiResponse("Property deleted successfully", true), HttpStatus.OK);
+    }
+
+    
+    @GetMapping("/countByType")
+    public ResponseEntity<List<Object[]>> countPropertiesByType() {
+        List<Object[]> countByType = propertyService.countPropertiesByType();
+        return ResponseEntity.ok(countByType);
+    }
+
+
+    // Get count of properties by city
+    @GetMapping("/count-by-city")
+    public ResponseEntity<List<Map<String, Object>>> countPropertiesByCity() {
+        List<Map<String, Object>> countByCity = propertyService.countPropertiesByCity();
+        return ResponseEntity.ok(countByCity);
     }
     
 
