@@ -31,12 +31,8 @@ public class ReApplication implements CommandLineRunner {
 
 	Logger log = LoggerFactory.getLogger(ReApplication.class);
 
-	@Autowired
-	private UserService userService;
 	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ReApplication.class, args);
 	}
@@ -45,31 +41,6 @@ public class ReApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		log.debug("Starting code");
-		//  try {
-		// log.debug("starting code");
-		
-		// // User user = new User();
-		// // user.setUsername("sai");
-		// // user.setPassword(this.bCryptPasswordEncoder.encode("abc"));
-		// // user.setEmail("abc@gmail.com");
-		
-		// // Role role1 = new Role();
-		// // role1.setRoleId(44L);
-		// // role1.setRoleName("Admin");
-		
-		// // Set<UserRole> userRoleSet = new HashSet<>();
-		// // UserRole userRole = new UserRole();
-		// // userRole.setRole(role1);
-		// // userRole.setUser(user);
-		
-		// // userRoleSet.add(userRole);
-		
-		// // User user1 = this.userService.createUser(user, userRoleSet);
-		// // 	log.debug(user1.getUsername());
-		// }
-		// catch (UserFoundException e) {
-	    //     e.printStackTrace();
-	    // }
 		
 	}
 	

@@ -1,5 +1,6 @@
 package com.realestate.re.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.realestate.re.model.re.Property;
+import com.realestate.re.model.re.PropertyImage;
 import com.realestate.re.payload.ApiResponse;
 
 import com.realestate.re.service.PropertyService;
@@ -33,6 +35,11 @@ public class PropertyController {
     
 
     //add Property
+    // @PostMapping("/")
+    // public ResponseEntity<Property> addProperty(@RequestBody Property property) {
+    //     Property savedProperty = propertyService.addProperty(property);
+    //     return ResponseEntity.ok(savedProperty);
+    // }
     @PostMapping("/")
     public ResponseEntity<Property> addProperty(@RequestBody Property property) {
         Property property1 = new Property();
@@ -73,6 +80,17 @@ public class PropertyController {
         property1.setaLandmark(property.getaLandmark());
         property1.setaPincode(property.getaPincode());
         property1.setaState(property.getaState());
+        property1.setImages(property.getImages());
+        property1.setActive(property.isActive());
+
+        List<PropertyImage> images = property.getImages();
+        if (images != null) {
+            for (PropertyImage image : images) {
+                image.setProperty(property1);
+            }
+            property1.setImages(images);
+        }
+
         return ResponseEntity.ok(this.propertyService.addProperty(property1));
     }
 

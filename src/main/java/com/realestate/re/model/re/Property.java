@@ -1,9 +1,12 @@
 package com.realestate.re.model.re;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,6 +22,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.realestate.re.model.User;
 
@@ -67,12 +71,16 @@ public class Property {
     private String aPincode;
     private String pPhoto;
 
-    // private String pLocation;
-    // private String pLandmark;
-    // private String pCity;
-    // private String pState;
-    // private String pPincode;
-    
+
+    private boolean active = false;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     //many property under one user
     @JoinColumn(name = "uId")
@@ -81,12 +89,42 @@ public class Property {
 
     
     //many properties under one cart
-  
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "property")
     @JsonIgnoreProperties("property")
     private Set<Saved> saved = new HashSet<>();
 
-    
+    @JsonIgnore
+    public Set<Saved> getSaved() {
+        return saved;
+    }
+
+    public void setSaved(Set<Saved> saved) {
+        this.saved = saved;
+    }
+
+    // one property has many images    
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("property")
+    private List<PropertyImage> images = new ArrayList<>();
+
+  
+    public List<PropertyImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<PropertyImage> images) {
+        this.images = images;
+    }
+
+    // public void addImage(PropertyImage image) {
+    //     images.add(image);
+    //     image.setProperty(this);
+    // }
+
+    // public void removeImage(PropertyImage image) {
+    //     images.remove(image);
+    //     image.setProperty(null);
+    // }
     
 
     public Property() {
@@ -501,64 +539,11 @@ public class Property {
         this.user = user;
     }
 
-    @JsonIgnore
-    public Set<Saved> getSaved() {
-        return saved;
-    }
+   
+
+   
 
 
-    public void setSaved(Set<Saved> saved) {
-        this.saved = saved;
-    }
-
-
-    // public String getpLocation() {
-    //     return pLocation;
-    // }
-
-
-    // public void setpLocation(String pLocation) {
-    //     this.pLocation = pLocation;
-    // }
-
-
-    // public String getpLandmark() {
-    //     return pLandmark;
-    // }
-
-
-    // public void setpLandmark(String pLandmark) {
-    //     this.pLandmark = pLandmark;
-    // }
-
-
-    // public String getpCity() {
-    //     return pCity;
-    // }
-
-
-    // public void setpCity(String pCity) {
-    //     this.pCity = pCity;
-    // }
-
-
-    // public String getpState() {
-    //     return pState;
-    // }
-
-
-    // public void setpState(String pState) {
-    //     this.pState = pState;
-    // }
-
-
-    // public String getpPincode() {
-    //     return pPincode;
-    // }
-
-
-    // public void setpPincode(String pPincode) {
-    //     this.pPincode = pPincode;
-    // }
+   
 
 }
