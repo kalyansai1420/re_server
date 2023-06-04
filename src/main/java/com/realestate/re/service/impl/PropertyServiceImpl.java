@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.realestate.re.helper.ResourceFoundException;
 import com.realestate.re.helper.ResourceNotFoundException;
 import com.realestate.re.model.re.Property;
+import com.realestate.re.model.re.PropertyImage;
 import com.realestate.re.repo.PropertyRepository;
 import com.realestate.re.service.PropertyService;
 
@@ -91,6 +92,23 @@ public class PropertyServiceImpl implements PropertyService {
         property1.setaLandmark(property.getaLandmark());
         property1.setaPincode(property.getaPincode());
         property1.setaState(property.getaState());
+        property1.setActive(property.isActive());
+        property1.setSoldOut(property.isSoldOut());
+        property1.setCreatedAt(property.getCreatedAt());
+        property1.setUpdatedAt(property.getUpdatedAt());
+
+        // Clear the existing images
+        property1.getImages().clear();
+
+        // Add new images
+        List<PropertyImage> newImages = property.getImages();
+        if (newImages != null) {
+            for (PropertyImage newImage : newImages) {
+                newImage.setProperty(property1);
+                property1.getImages().add(newImage);
+            }
+        }
+
         return this.propertyRepository.save(property1);
     }
 

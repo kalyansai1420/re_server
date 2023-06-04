@@ -1,6 +1,7 @@
 package com.realestate.re.model.re;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -73,6 +77,18 @@ public class Property {
 
 
     private boolean active = false;
+    private boolean soldOut = false;
+
+
+    @CreationTimestamp
+    private LocalDateTime CreatedAt;
+
+    @UpdateTimestamp
+    private LocalDateTime UpdatedAt;
+
+
+    
+
 
     public boolean isActive() {
         return active;
@@ -116,15 +132,15 @@ public class Property {
         this.images = images;
     }
 
-    // public void addImage(PropertyImage image) {
-    //     images.add(image);
-    //     image.setProperty(this);
-    // }
+    public void addImage(PropertyImage image) {
+        images.add(image);
+        image.setProperty(this);
+    }
 
-    // public void removeImage(PropertyImage image) {
-    //     images.remove(image);
-    //     image.setProperty(null);
-    // }
+    public void removeImage(PropertyImage image) {
+        images.remove(image);
+        image.setProperty(null);
+    }
     
 
     public Property() {
@@ -537,6 +553,30 @@ public class Property {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isSoldOut() {
+        return soldOut;
+    }
+
+    public void setSoldOut(boolean soldOut) {
+        this.soldOut = soldOut;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return UpdatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        UpdatedAt = updatedAt;
     }
 
    

@@ -21,7 +21,7 @@ import com.realestate.re.service.SavedService;
 
 @RestController
 @RequestMapping("/saved")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("*")
 public class SavedController {
     
     @Autowired

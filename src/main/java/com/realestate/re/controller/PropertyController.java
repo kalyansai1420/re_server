@@ -35,15 +35,10 @@ public class PropertyController {
     
 
     //add Property
-    // @PostMapping("/")
-    // public ResponseEntity<Property> addProperty(@RequestBody Property property) {
-    //     Property savedProperty = propertyService.addProperty(property);
-    //     return ResponseEntity.ok(savedProperty);
-    // }
     @PostMapping("/")
     public ResponseEntity<Property> addProperty(@RequestBody Property property) {
         Property property1 = new Property();
-        property1.setpId(property.getpId());
+        // property1.setpId(property.getpId());
         property1.setUser(property.getUser());
         property1.setpAgeOfConstruction(property.getpAgeOfConstruction());
         property1.setpArea(property.getpArea());
@@ -82,6 +77,10 @@ public class PropertyController {
         property1.setaState(property.getaState());
         property1.setImages(property.getImages());
         property1.setActive(property.isActive());
+        property1.setSoldOut(property.isSoldOut());
+        property1.setCreatedAt(property.getCreatedAt());
+        property1.setUpdatedAt(property.getUpdatedAt());
+        
 
         List<PropertyImage> images = property.getImages();
         if (images != null) {
