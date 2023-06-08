@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.realestate.re.helper.ResourceFoundException;
@@ -84,19 +85,27 @@ public class UserServiceImpl implements UserService {
 
 	//updating user
 	@Override
-	public User updateUser(User user, Long uId) {
-		
-		User localUser = this.userRepository.findById(uId).orElseThrow(
-			() -> new ResourceNotFoundException("User", " Id ", uId)
-		);
-		localUser.setuId(user.getuId());
-		localUser.setUsername(user.getUsername());
-		localUser.setEmail(user.getEmail());
-		localUser.setPassword(user.getPassword());
-		localUser.setPhonenumber(user.getPhonenumber());
-		
-		return this.userRepository.save(localUser);
+	public User updateUser(User user) {
+		// Find the existing user by ID
+		User existingUser = userRepository.findById(user.getuId())
+				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", user.getuId()));
 
+		// Update the user's properties
+		existingUser.setUsername(user.getUsername());
+		existingUser.setEmail(user.getEmail());
+		existingUser.setPhonenumber(user.getPhonenumber());
+		String newPassword = user.getPassword();
+		if (newPassword != null && !newPassword.isEmpty()) {
+			// Use BCryptPasswordEncoder to encode the new password
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String encodedPassword = passwordEncoder.encode(newPassword);
+			existingUser.setPassword(encodedPassword);
+		}
+
+		existingUser.setUserRoles(user.getUserRoles());
+
+		// Save the updated user
+		return userRepository.save(existingUser);
 	}
 
 	@Override

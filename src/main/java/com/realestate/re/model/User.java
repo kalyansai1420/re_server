@@ -55,6 +55,11 @@ public class User implements UserDetails {
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
+	
+	public void updateUserRole(Set<UserRole> userRoles) {
+		this.userRoles.clear();
+		this.userRoles.addAll(userRoles);
+	}
 
 	// one user has many properties
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
@@ -165,6 +170,10 @@ public class User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+
+    public User orElseThrow(Object object) {
+        return null;
+    }
 
 	// public User orElseThrow(Object object) {
 	// return null;

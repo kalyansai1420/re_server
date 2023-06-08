@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.realestate.re.helper.ResourceFoundException;
 import com.realestate.re.helper.ResourceNotFoundException;
+import com.realestate.re.model.User;
 import com.realestate.re.model.re.Property;
 import com.realestate.re.model.re.PropertyImage;
 import com.realestate.re.repo.PropertyRepository;
@@ -51,10 +52,11 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Property updateProperty(Property property,Long pId) {
-        Property property1 = this.propertyRepository.findById(pId).orElseThrow(
-                () -> new ResourceNotFoundException("Property", " Id ", pId));;
+    public Property updateProperty(Property property) {
+        // Property property1 = this.propertyRepository.findById(pId).orElseThrow(
+        //         () -> new ResourceNotFoundException("Property", " Id ", pId));;
         
+        Property property1 = new Property();
         property1.setpId(property.getpId());
         property1.setUser(property.getUser());
         property1.setpAgeOfConstruction(property.getpAgeOfConstruction());
@@ -134,6 +136,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public List<Map<String, Object>> countPropertiesByCity() {
         return propertyRepository.countPropertiesByCity();
+    }
+
+    @Override
+    public List<Property> getPropertyByUser(User user) {
+        return this.propertyRepository.findByUser(user);
     }
     
 }

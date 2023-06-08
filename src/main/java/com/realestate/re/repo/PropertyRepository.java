@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.realestate.re.model.User;
 import com.realestate.re.model.re.Property;
 
 public interface PropertyRepository extends JpaRepository<Property, Long> {
@@ -21,6 +22,8 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query(value = "select COUNT(*) as Count, a_city as City from property group by a_city",nativeQuery = true)
     List<Map<String, Object>> countPropertiesByCity();
+
+    public List<Property> findByUser(User user);
 
 
 }

@@ -1,9 +1,11 @@
 package com.realestate.re.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.realestate.re.model.User;
+import com.realestate.re.model.re.Property;
 import com.realestate.re.model.re.Saved;
 
 public interface SavedService {
@@ -20,5 +22,7 @@ public interface SavedService {
 
     public List<Saved> getSavedofUser(User user);
 
-    
+    public List<Map<String, Object>> countLikesByProperty();
+
+    public int getLikesByPropertyId(Property property);
 }

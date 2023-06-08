@@ -12,7 +12,7 @@ public interface UserService {
 	public User createUser(User user,Set<UserRole> userRoles) throws Exception;
 	
 	//update user
-	public User updateUser(User user, Long uId);
+	public User updateUser(User user);
 
 	//get username
 	public User getUser(Long uId);

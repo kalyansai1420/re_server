@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.realestate.re.model.User;
 import com.realestate.re.model.re.Property;
 import com.realestate.re.model.re.PropertyImage;
 import com.realestate.re.payload.ApiResponse;
@@ -28,13 +29,11 @@ import com.realestate.re.service.PropertyService;
 @RequestMapping("/property")
 @CrossOrigin("*")
 public class PropertyController {
-    
+
     @Autowired
     private PropertyService propertyService;
 
-    
-
-    //add Property
+    // add Property
     @PostMapping("/")
     public ResponseEntity<Property> addProperty(@RequestBody Property property) {
         Property property1 = new Property();
@@ -80,7 +79,6 @@ public class PropertyController {
         property1.setSoldOut(property.isSoldOut());
         property1.setCreatedAt(property.getCreatedAt());
         property1.setUpdatedAt(property.getUpdatedAt());
-        
 
         List<PropertyImage> images = property.getImages();
         if (images != null) {
@@ -93,43 +91,38 @@ public class PropertyController {
         return ResponseEntity.ok(this.propertyService.addProperty(property1));
     }
 
-    //get property
+    // get property
     @GetMapping("/{propertyId}")
     public Property getProperty(@PathVariable("propertyId") Long propertyId) {
         return this.propertyService.getProperty(propertyId);
     }
 
-    //get properties
+    // get properties
     @GetMapping("/")
     public Set<Property> getProperties() {
         return this.propertyService.getProperties();
     }
 
-    //update Property
-    @PutMapping("/{propertyId}")
-    public ResponseEntity<Property> updateProperty(@RequestBody Property property,
-            @PathVariable("propertyId") Long pId) {
-
-        Property updatedProperty = this.propertyService.updateProperty(property, pId);
-
+    // update Property
+    @PutMapping("/")
+    public ResponseEntity<Property> updateProperty(@RequestBody Property property) {
+        Property updatedProperty = this.propertyService.updateProperty(property);
         return ResponseEntity.ok(updatedProperty);
-       
+
     }
 
-    //delete Property
+    // delete Property
     @DeleteMapping("/{propertyId}")
     public ResponseEntity<ApiResponse> deleteProperty(@PathVariable("propertyId") Long propertyId) {
         this.propertyService.deleteProperty(propertyId);
         return new ResponseEntity(new ApiResponse("Property deleted successfully", true), HttpStatus.OK);
     }
 
-    
     @GetMapping("/countByType")
     public ResponseEntity<List<Object[]>> countPropertiesByType() {
         List<Object[]> countByType = propertyService.countPropertiesByType();
         return ResponseEntity.ok(countByType);
     }
-
 
     // Get count of properties by city
     @GetMapping("/count-by-city")
@@ -137,8 +130,12 @@ public class PropertyController {
         List<Map<String, Object>> countByCity = propertyService.countPropertiesByCity();
         return ResponseEntity.ok(countByCity);
     }
-    
 
-
+    @GetMapping("/user/{uId}")
+    public List<Property> getPropertyofUser(@PathVariable("uId") Long uId) {
+        User user = new User();
+        user.setuId(uId);
+        return this.propertyService.getPropertyByUser(user);
+    }
 
 }

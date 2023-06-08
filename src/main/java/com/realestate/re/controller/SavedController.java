@@ -1,6 +1,7 @@
 package com.realestate.re.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,4 +65,14 @@ public class SavedController {
         user.setuId(uId);
         return this.savedService.getSavedofUser(user);
     }
+
+    @GetMapping("/likeByProperty")
+    public ResponseEntity<List<Map<String, Object>>> countLikesByProperty() {
+        List<Map<String, Object>> likesByProperty = savedService.countLikesByProperty();
+        return ResponseEntity.ok(likesByProperty);
+    }
+
+    // @GetMapping("/likeByProperty/{pId}")
+    
+
 }

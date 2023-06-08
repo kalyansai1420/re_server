@@ -2,6 +2,7 @@ package com.realestate.re.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.realestate.re.helper.ResourceNotFoundException;
 import com.realestate.re.model.User;
+import com.realestate.re.model.re.Property;
 import com.realestate.re.model.re.Saved;
 import com.realestate.re.repo.SavedRepository;
 import com.realestate.re.service.SavedService;
@@ -56,6 +58,21 @@ public class SavedServiceImpl implements SavedService {
     @Override
     public List<Saved> getSavedofUser(User user) {
         return this.savedRepository.findByUser(user);
+    }
+
+    @Override
+    public List<Map<String, Object>> countLikesByProperty() {
+       
+        return savedRepository.countLikesByProperty();
+    
+    }
+
+    @Override
+    public int getLikesByPropertyId(Property property) {
+    
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getLikesByPropertyId'");
+    
     }
 
 }

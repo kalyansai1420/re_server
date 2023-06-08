@@ -35,66 +35,81 @@ import com.realestate.re.service.UserService;
 @CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	
+
 	@Autowired
 	private UserService userService;
-	
-	//creating User
+
+	// creating User
 	@PostMapping("/")
 	public User createUser(@RequestBody User user) throws Exception {
-		
-		
+
 		user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-		
+
 		Set<UserRole> roles = new HashSet<>();
 		Role role = new Role();
 		role.setRoleId(45L);
 		role.setRoleName("Normal");
-		
+
 		UserRole userRole = new UserRole();
 		userRole.setUser(user);
 		userRole.setRole(role);
-		
+
 		roles.add(userRole);
-		
+
 		return this.userService.createUser(user, roles);
 	}
-	
 
-	@PutMapping("/{userId}")
-	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("userId") Long uId) {
-		User updatedUser = this.userService.updateUser(user, uId);
+	@PutMapping("/")
+	public ResponseEntity<User> updateUser(@RequestBody User user) {
+		// Find the existing user by ID
+		User existingUser = userService.getUserById(user.getuId());
+
+		// Update the user's properties
+		existingUser.setUsername(user.getUsername());
+		existingUser.setEmail(user.getEmail());
+		existingUser.setPhonenumber(user.getPhonenumber());
+		// Check if the password needs to be updated
+		String newPassword = user.getPassword();
+		if (newPassword != null && !newPassword.isEmpty()) {
+			// Use BCryptPasswordEncoder to encode the new password
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String encodedPassword = passwordEncoder.encode(newPassword);
+			existingUser.setPassword(encodedPassword);
+		}
+		existingUser.setUserRoles(user.getUserRoles());
+
+		// Save the updated user
+		User updatedUser = userService.updateUser(existingUser);
+
 		return ResponseEntity.ok(updatedUser);
 	}
 
-
-
 	@GetMapping("/{uId}")
 	public User getUser(@PathVariable("uId") Long uId) {
-		
+
 		return this.userService.getUser(uId);
 	}
-	//delete user
+
+	// delete user
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Long userId) {
 		this.userService.deleteUser(userId);
 		return new ResponseEntity(new ApiResponse("User deleted Successfully", true), HttpStatus.OK);
 	}
 
-	//get all users
+	// get all users
 	@GetMapping("/")
 	public ResponseEntity<Set<User>> getAllUsers() {
 		return ResponseEntity.ok(this.userService.getAllUsers());
 	}
-	
-	//update user
+
+	// update user
 	@ExceptionHandler(UserFoundException.class)
-    public ResponseEntity<?> exceptionHandler(UserFoundException ex) {
-        return ResponseEntity.ok(ex.getMessage());
-    }
-	
+	public ResponseEntity<?> exceptionHandler(UserFoundException ex) {
+		return ResponseEntity.ok(ex.getMessage());
+	}
+
 }
