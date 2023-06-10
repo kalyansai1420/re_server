@@ -23,6 +23,10 @@ public interface PropertyService {
 
     public List<Map<String, Object>> countPropertiesByCity();
 
+    public List<Property> getPropertiesByCity(String city);
+
+    public List<Property> getPropertiesByType(String type);
+    
     public List<Property> getPropertyByUser(User user);
     
 }

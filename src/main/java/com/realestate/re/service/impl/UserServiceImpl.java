@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.realestate.re.helper.ResourceFoundException;
 import com.realestate.re.helper.ResourceNotFoundException;
 import com.realestate.re.helper.UserFoundException;
+import com.realestate.re.model.Role;
 
 // import com.example.demo.helper.UserFoundException;
 // import com.example.demo.model.User;
@@ -33,19 +34,22 @@ import com.realestate.re.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
-	//creating user
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	// creating user
 	@Override
 	public User createUser(User user, Set<UserRole> userRoles) throws Exception {
-		
+
 		User local = this.userRepository.findByUsername(user.getUsername());
 		if (local != null) {
 			System.out.print("User already present");
@@ -59,66 +63,106 @@ public class UserServiceImpl implements UserService {
 			local = this.userRepository.save(user);
 		}
 		return local;
-		
-		// Optional<User> usernameEntry = this.userRepository.findByUsername(user.getUsername());
+
+		// Optional<User> usernameEntry =
+		// this.userRepository.findByUsername(user.getUsername());
 		// Optional<User> emailEntry = this.userRepository.findByEmail(user.getEmail());
 
 		// if (usernameEntry.isPresent()) {
-		// 	throw new ResourceFoundException("Username already exists try new username");
+		// throw new ResourceFoundException("Username already exists try new username");
 		// }
 		// if (emailEntry.isPresent()) {
-		// 	throw new ResourceFoundException("Email already exists try new email");
+		// throw new ResourceFoundException("Email already exists try new email");
 		// } else {
-		// 	// user create
-		// 	for (UserRole ur : userRoles) {
-		// 		roleRepository.save(ur.getRole());
-		// 	}
-		// 	user.getUserRoles().addAll(userRoles);
-		// 	this.userRepository.save(user);
+		// // user create
+		// for (UserRole ur : userRoles) {
+		// roleRepository.save(ur.getRole());
+		// }
+		// user.getUserRoles().addAll(userRoles);
+		// this.userRepository.save(user);
 		// }
 
-		// return 
-		
+		// return
 
-		
 	}
 
-	//updating user
 	@Override
 	public User updateUser(User user) {
-		// Find the existing user by ID
 		User existingUser = userRepository.findById(user.getuId())
 				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", user.getuId()));
 
-		// Update the user's properties
 		existingUser.setUsername(user.getUsername());
 		existingUser.setEmail(user.getEmail());
 		existingUser.setPhonenumber(user.getPhonenumber());
-		String newPassword = user.getPassword();
-		if (newPassword != null && !newPassword.isEmpty()) {
-			// Use BCryptPasswordEncoder to encode the new password
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			String encodedPassword = passwordEncoder.encode(newPassword);
-			existingUser.setPassword(encodedPassword);
+		existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+		Set<UserRole> updatedRoles = new HashSet<>();
+		for (UserRole ur : user.getUserRoles()) {
+			Role role = roleRepository.findById(ur.getRole().getRoleId())
+					.orElseThrow(() -> new ResourceNotFoundException("Role", "Id", ur.getRole().getRoleId()));
+
+			UserRole userRole = new UserRole();
+			userRole.setUser(existingUser);
+			userRole.setRole(role);
+
+			updatedRoles.add(userRole);
 		}
 
-		existingUser.setUserRoles(user.getUserRoles());
+		existingUser.getUserRoles().clear();
+		existingUser.getUserRoles().addAll(updatedRoles);
 
-		// Save the updated user
 		return userRepository.save(existingUser);
 	}
+
+	// //updating user
+	// @Override
+	// public User updateUser(User user) {
+	// User existingUser = userRepository.findById(user.getuId())
+	// .orElseThrow(() -> new ResourceNotFoundException("User", "Id",
+	// user.getuId()));
+	// existingUser.setUsername(user.getUsername());
+	// existingUser.setEmail(user.getEmail());
+	// existingUser.setPhonenumber(user.getPhonenumber());
+	// existingUser.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+	// existingUser.setUserRoles(user.getUserRoles());
+	// return userRepository.save(existingUser);
+	// }
+	// @Override
+	// public User updateUser(User user) {
+	// // Find the existing user by ID
+	// User existingUser = userRepository.findById(user.getuId())
+	// .orElseThrow(() -> new ResourceNotFoundException("User", "Id",
+	// user.getuId()));
+
+	// // Update the user's properties
+	// existingUser.setUsername(user.getUsername());
+	// existingUser.setEmail(user.getEmail());
+	// existingUser.setPhonenumber(user.getPhonenumber());
+	// existingUser.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+	// //String newPassword = user.getPassword();
+	// // if (newPassword != null && !newPassword.isEmpty()) {
+	// // // Use BCryptPasswordEncoder to encode the new password
+	// // BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	// // String encodedPassword = passwordEncoder.encode(newPassword);
+	// // existingUser.setPassword(encodedPassword);
+	// // }
+
+	// existingUser.setUserRoles(user.getUserRoles());
+
+	// // Save the updated user
+	// return userRepository.save(existingUser);
+	// }
 
 	@Override
 	public User getUser(Long uId) {
 
-		// User user = this.userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User", " Name ", username));
+		// User user = this.userRepository.findByUsername(username).orElseThrow(() ->
+		// new ResourceNotFoundException("User", " Name ", username));
 		// User user = this.userRepository.findByUsername(
-		// 		username).orElseThrow(
-		// 		() -> new ResourceNotFoundException("User", " Name ", username));
+		// username).orElseThrow(
+		// () -> new ResourceNotFoundException("User", " Name ", username));
 		User user = this.userRepository.findById(uId).orElseThrow(
 				() -> new ResourceNotFoundException("User", " Id ", uId));
-
-		
 
 		return user;
 	}
@@ -126,16 +170,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(Long uId) {
 
-		User user=this.userRepository.findById(uId).orElseThrow(
-			() -> new ResourceNotFoundException("User", " Id ", uId)
-		);
+		User user = this.userRepository.findById(uId).orElseThrow(
+				() -> new ResourceNotFoundException("User", " Id ", uId));
 		return user;
 
 	}
 
 	@Override
 	public Set<User> getAllUsers() {
-		
+
 		return new HashSet<>(this.userRepository.findAll());
 
 	}
@@ -146,11 +189,8 @@ public class UserServiceImpl implements UserService {
 		User user = this.userRepository.findById(uId).orElseThrow(
 				() -> new ResourceNotFoundException("User", " Id ", uId));
 		this.userRepository.delete(user);
-		
+
 	}
-
-	
-
 
 	public User dtoToUser(UserDto userDto) {
 		User user = new User();
@@ -162,7 +202,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public UserDto userToDto(User user) {
-		
+
 		UserDto userDto = new UserDto();
 		userDto.setuId(user.getuId());
 		userDto.setUsername(user.getUsername());
@@ -170,7 +210,5 @@ public class UserServiceImpl implements UserService {
 		userDto.setPassword(user.getPassword());
 		return userDto;
 	}
-
-	
 
 }

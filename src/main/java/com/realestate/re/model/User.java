@@ -22,10 +22,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.realestate.re.helper.GrantedAuthorityDeserializer;
+import com.realestate.re.helper.GrantedAuthoritySerializer;
 import com.realestate.re.model.re.Property;
 import com.realestate.re.model.re.Saved;
 
 // @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "uId")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "uId")
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
@@ -38,6 +43,11 @@ public class User implements UserDetails {
 	private String phonenumber;
 	private String password;
 	private boolean enabled = true;
+
+
+	// @JsonSerialize(using = GrantedAuthoritySerializer.class)
+    // @JsonDeserialize(using = GrantedAuthorityDeserializer.class)
+    // private Set<GrantedAuthority> authorities;
 
 	public User() {
 		super();

@@ -131,6 +131,17 @@ public class PropertyController {
         return ResponseEntity.ok(countByCity);
     }
 
+    @GetMapping("/type/{type}")
+    public List<Property> getPropertiesByType(@PathVariable("type") String type) {
+        return this.propertyService.getPropertiesByType(type);
+    }
+
+
+    @GetMapping("/city/{city}")
+    public List<Property> getPropertiesByCity(@PathVariable("city") String city) {
+        return this.propertyService.getPropertiesByCity(city);
+    }
+
     @GetMapping("/user/{uId}")
     public List<Property> getPropertyofUser(@PathVariable("uId") Long uId) {
         User user = new User();

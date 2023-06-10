@@ -142,5 +142,16 @@ public class PropertyServiceImpl implements PropertyService {
     public List<Property> getPropertyByUser(User user) {
         return this.propertyRepository.findByUser(user);
     }
+
+    @Override
+    public List<Property> getPropertiesByCity(String city) {
+        return this.propertyRepository.findPropertiesByCity(city);
+    }
+
+    @Override
+    public List<Property> getPropertiesByType(String type) {
+   
+        return this.propertyRepository.findPropertiesByType(type);
+    }
     
 }
