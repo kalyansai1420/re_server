@@ -1,12 +1,12 @@
 package com.realestate.re.model;
 
 public class JwtRequest {
-	
+
 	String username;
 	String password;
-	
+
 	public JwtRequest() {
-		
+
 	}
 
 	public JwtRequest(String username, String password) {

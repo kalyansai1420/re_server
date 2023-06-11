@@ -29,7 +29,7 @@ import com.realestate.re.helper.GrantedAuthoritySerializer;
 import com.realestate.re.model.re.Property;
 import com.realestate.re.model.re.Saved;
 
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "uId")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "uId")
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "uId")
 @Entity
 @Table(name = "user")
@@ -44,10 +44,9 @@ public class User implements UserDetails {
 	private String password;
 	private boolean enabled = true;
 
-
 	// @JsonSerialize(using = GrantedAuthoritySerializer.class)
-    // @JsonDeserialize(using = GrantedAuthorityDeserializer.class)
-    // private Set<GrantedAuthority> authorities;
+	// @JsonDeserialize(using = GrantedAuthorityDeserializer.class)
+	// private Set<GrantedAuthority> authorities;
 
 	public User() {
 		super();
@@ -65,7 +64,7 @@ public class User implements UserDetails {
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
-	
+
 	public void updateUserRole(Set<UserRole> userRoles) {
 		this.userRoles.clear();
 		this.userRoles.addAll(userRoles);
@@ -181,9 +180,9 @@ public class User implements UserDetails {
 		return true;
 	}
 
-    public User orElseThrow(Object object) {
-        return null;
-    }
+	public User orElseThrow(Object object) {
+		return null;
+	}
 
 	// public User orElseThrow(Object object) {
 	// return null;

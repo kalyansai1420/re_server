@@ -1,7 +1,7 @@
 package com.realestate.re.model;
 
 public class JwtResponse {
-	
+
 	String token;
 
 	public JwtResponse() {
@@ -20,7 +20,5 @@ public class JwtResponse {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	
 
 }

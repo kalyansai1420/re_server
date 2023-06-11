@@ -1,6 +1,5 @@
 package com.realestate.re.model.re;
 
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,7 +31,8 @@ import com.realestate.re.model.User;
 
 @Entity
 @Table(name = "property")
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "pId")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+// property = "pId")
 public class Property {
 
     @Id
@@ -56,18 +56,18 @@ public class Property {
     private String pRoomFloor;
     private String pTotalFloor;
     private String pBHK;
-    private Boolean lift;
-    private Boolean security;
-    private Boolean playground;
-    private Boolean gardens;
-    private Boolean waterSupply;
-    private Boolean powerBackup;
-    private Boolean parkingArea;
-    private Boolean gym;
-    private Boolean shoppingMall;
-    private Boolean hospitals;
-    private Boolean schools;
-    private Boolean marketArea;
+    private Boolean lift = false;
+    private Boolean security = false;
+    private Boolean playground = false;
+    private Boolean gardens = false;
+    private Boolean waterSupply = false;
+    private Boolean powerBackup = false;
+    private Boolean parkingArea = false;
+    private Boolean gym = false;
+    private Boolean shoppingMall = false;
+    private Boolean hospitals = false;
+    private Boolean schools = false;
+    private Boolean marketArea = false;
     private String aArea;
     private String aLandmark;
     private String aCity;
@@ -75,20 +75,14 @@ public class Property {
     private String aPincode;
     private String pPhoto;
 
-
     private boolean active = false;
     private boolean soldOut = false;
-
 
     @CreationTimestamp
     private LocalDateTime CreatedAt;
 
     @UpdateTimestamp
     private LocalDateTime UpdatedAt;
-
-
-    
-
 
     public boolean isActive() {
         return active;
@@ -98,13 +92,12 @@ public class Property {
         this.active = active;
     }
 
-    //many property under one user
+    // many property under one user
     @JoinColumn(name = "uId")
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    
-    //many properties under one cart
+    // many properties under one cart
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "property")
     @JsonIgnoreProperties("property")
     private Set<Saved> saved = new HashSet<>();
@@ -118,12 +111,11 @@ public class Property {
         this.saved = saved;
     }
 
-    // one property has many images    
+    // one property has many images
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("property")
     private List<PropertyImage> images = new ArrayList<>();
 
-  
     public List<PropertyImage> getImages() {
         return images;
     }
@@ -141,12 +133,10 @@ public class Property {
         images.remove(image);
         image.setProperty(null);
     }
-    
 
     public Property() {
         super();
     }
-
 
     public Property(Long pId, String pName, String pPrice, String pOfferType, String pPropertyType,
             String pFurnishedStatus, String pPossesionStatus, String pFacing, String pAgeOfConstruction, String pArea,
@@ -195,361 +185,289 @@ public class Property {
         this.saved = saved;
     }
 
-
     public Long getpId() {
         return pId;
     }
-
 
     public void setpId(Long pId) {
         this.pId = pId;
     }
 
-
     public String getpName() {
         return pName;
     }
-
 
     public void setpName(String pName) {
         this.pName = pName;
     }
 
-
     public String getpPrice() {
         return pPrice;
     }
-
 
     public void setpPrice(String pPrice) {
         this.pPrice = pPrice;
     }
 
-
     public String getpOfferType() {
         return pOfferType;
     }
-
 
     public void setpOfferType(String pOfferType) {
         this.pOfferType = pOfferType;
     }
 
-
     public String getpPropertyType() {
         return pPropertyType;
     }
-
 
     public void setpPropertyType(String pPropertyType) {
         this.pPropertyType = pPropertyType;
     }
 
-
     public String getpFurnishedStatus() {
         return pFurnishedStatus;
     }
-
 
     public void setpFurnishedStatus(String pFurnishedStatus) {
         this.pFurnishedStatus = pFurnishedStatus;
     }
 
-
     public String getpPossesionStatus() {
         return pPossesionStatus;
     }
-
 
     public void setpPossesionStatus(String pPossesionStatus) {
         this.pPossesionStatus = pPossesionStatus;
     }
 
-
     public String getpFacing() {
         return pFacing;
     }
-
 
     public void setpFacing(String pFacing) {
         this.pFacing = pFacing;
     }
 
-
     public String getpAgeOfConstruction() {
         return pAgeOfConstruction;
     }
-
 
     public void setpAgeOfConstruction(String pAgeOfConstruction) {
         this.pAgeOfConstruction = pAgeOfConstruction;
     }
 
-
     public String getpArea() {
         return pArea;
     }
-
 
     public void setpArea(String pArea) {
         this.pArea = pArea;
     }
 
-
     public String getpDescription() {
         return pDescription;
     }
-
 
     public void setpDescription(String pDescription) {
         this.pDescription = pDescription;
     }
 
-
     public String getpBedroom() {
         return pBedroom;
     }
-
 
     public void setpBedroom(String pBedroom) {
         this.pBedroom = pBedroom;
     }
 
-
     public String getpBalcony() {
         return pBalcony;
     }
-
 
     public void setpBalcony(String pBalcony) {
         this.pBalcony = pBalcony;
     }
 
-
     public String getpBathroom() {
         return pBathroom;
     }
-
 
     public void setpBathroom(String pBathroom) {
         this.pBathroom = pBathroom;
     }
 
-
     public String getpRoomFloor() {
         return pRoomFloor;
     }
-
 
     public void setpRoomFloor(String pRoomFloor) {
         this.pRoomFloor = pRoomFloor;
     }
 
-
     public String getpTotalFloor() {
         return pTotalFloor;
     }
-
 
     public void setpTotalFloor(String pTotalFloor) {
         this.pTotalFloor = pTotalFloor;
     }
 
-
     public String getpBHK() {
         return pBHK;
     }
-
 
     public void setpBHK(String pBHK) {
         this.pBHK = pBHK;
     }
 
-
     public Boolean getLift() {
         return lift;
     }
-
 
     public void setLift(Boolean lift) {
         this.lift = lift;
     }
 
-
     public Boolean getSecurity() {
         return security;
     }
-
 
     public void setSecurity(Boolean security) {
         this.security = security;
     }
 
-
     public Boolean getPlayground() {
         return playground;
     }
-
 
     public void setPlayground(Boolean playground) {
         this.playground = playground;
     }
 
-
     public Boolean getGardens() {
         return gardens;
     }
-
 
     public void setGardens(Boolean gardens) {
         this.gardens = gardens;
     }
 
-
     public Boolean getWaterSupply() {
         return waterSupply;
     }
-
 
     public void setWaterSupply(Boolean waterSupply) {
         this.waterSupply = waterSupply;
     }
 
-
     public Boolean getPowerBackup() {
         return powerBackup;
     }
-
 
     public void setPowerBackup(Boolean powerBackup) {
         this.powerBackup = powerBackup;
     }
 
-
     public Boolean getParkingArea() {
         return parkingArea;
     }
-
 
     public void setParkingArea(Boolean parkingArea) {
         this.parkingArea = parkingArea;
     }
 
-
     public Boolean getGym() {
         return gym;
     }
-
 
     public void setGym(Boolean gym) {
         this.gym = gym;
     }
 
-
     public Boolean getShoppingMall() {
         return shoppingMall;
     }
-
 
     public void setShoppingMall(Boolean shoppingMall) {
         this.shoppingMall = shoppingMall;
     }
 
-
     public Boolean getHospitals() {
         return hospitals;
     }
-
 
     public void setHospitals(Boolean hospitals) {
         this.hospitals = hospitals;
     }
 
-
     public Boolean getSchools() {
         return schools;
     }
-
 
     public void setSchools(Boolean schools) {
         this.schools = schools;
     }
 
-
     public Boolean getMarketArea() {
         return marketArea;
     }
-
 
     public void setMarketArea(Boolean marketArea) {
         this.marketArea = marketArea;
     }
 
-
     public String getaArea() {
         return aArea;
     }
-
 
     public void setaArea(String aArea) {
         this.aArea = aArea;
     }
 
-
     public String getaLandmark() {
         return aLandmark;
     }
-
 
     public void setaLandmark(String aLandmark) {
         this.aLandmark = aLandmark;
     }
 
-
     public String getaCity() {
         return aCity;
     }
-
 
     public void setaCity(String aCity) {
         this.aCity = aCity;
     }
 
-
     public String getaState() {
         return aState;
     }
-
 
     public void setaState(String aState) {
         this.aState = aState;
     }
 
-
     public String getaPincode() {
         return aPincode;
     }
-
 
     public void setaPincode(String aPincode) {
         this.aPincode = aPincode;
     }
 
-
     public String getpPhoto() {
         return pPhoto;
     }
-
 
     public void setpPhoto(String pPhoto) {
         this.pPhoto = pPhoto;
     }
 
-
     public User getUser() {
         return user;
     }
-
 
     public void setUser(User user) {
         this.user = user;
@@ -578,12 +496,5 @@ public class Property {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         UpdatedAt = updatedAt;
     }
-
-   
-
-   
-
-
-   
 
 }

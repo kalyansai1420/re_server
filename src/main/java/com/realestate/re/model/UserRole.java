@@ -9,25 +9,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user_role")
+@Table(name = "user_role")
 public class UserRole {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userRoleId;
 
-	//user
-	
+	// user
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
-	
+
 	@ManyToOne
 	private Role role;
-	
+
 	public UserRole() {
 		super();
 	}
-
 
 	public UserRole(Long userRoleId, User user, Role role) {
 		super();
@@ -36,7 +34,6 @@ public class UserRole {
 		this.role = role;
 	}
 
-	
 	public Long getUserRoleId() {
 		return userRoleId;
 	}
@@ -60,6 +57,5 @@ public class UserRole {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
+
 }

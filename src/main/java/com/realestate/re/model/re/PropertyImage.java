@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "property_image")
 public class PropertyImage {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,19 +29,17 @@ public class PropertyImage {
     public PropertyImage(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
+
     public PropertyImage(String imageUrl, Property property) {
         this.imageUrl = imageUrl;
         this.property = property;
     }
-
 
     public PropertyImage(Long id, String imageUrl, Property property) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.property = property;
     }
-
 
     public Long getId() {
         return id;
@@ -67,9 +65,4 @@ public class PropertyImage {
         this.property = property;
     }
 
-    
-
-    
-
-   
 }

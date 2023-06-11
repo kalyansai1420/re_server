@@ -18,14 +18,13 @@ import com.realestate.re.model.User;
 
 @Entity
 @Table(name = "saved")
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "saveId")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+// property = "saveId")
 public class Saved {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long saveId;
-    
 
     @ManyToOne
     @JoinColumn(name = "pId")
@@ -34,12 +33,9 @@ public class Saved {
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
-
-    
     public Saved() {
         super();
     }
-
 
     public Saved(Long saveId, Property property, User user) {
         super();
@@ -48,31 +44,25 @@ public class Saved {
         this.user = user;
     }
 
-    
     public Long getSaveId() {
         return saveId;
     }
-
 
     public void setSaveId(Long saveId) {
         this.saveId = saveId;
     }
 
-    
     public Property getProperty() {
         return property;
     }
-
 
     public void setProperty(Property property) {
         this.property = property;
     }
 
-
     public User getUser() {
         return user;
     }
-
 
     public void setUser(User user) {
         this.user = user;
