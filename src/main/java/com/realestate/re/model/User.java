@@ -71,7 +71,7 @@ public class User implements UserDetails {
 	}
 
 	// one user has many properties
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user",orphanRemoval = true)
 	@JsonIgnoreProperties("user")
 	private Set<Property> Property = new HashSet<>();
 

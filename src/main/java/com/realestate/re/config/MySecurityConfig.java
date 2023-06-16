@@ -59,7 +59,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 				.csrf().disable()
 				.cors().disable()
 				.authorizeRequests()
-				.antMatchers("/generate-token", "/user/", "/property/", "/property/{propertyId}","/user/test").permitAll()
+				.antMatchers("/generate-token", "/user/", "/property/", "/property/{propertyId}","/user/test","/saved/likeByProperty").permitAll()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated()
 				.and()

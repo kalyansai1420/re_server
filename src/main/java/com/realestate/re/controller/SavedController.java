@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.realestate.re.model.User;
 import com.realestate.re.model.re.Saved;
+import com.realestate.re.payload.ApiResponse;
 import com.realestate.re.repo.SavedRepository;
 import com.realestate.re.service.SavedService;
 
@@ -24,41 +26,37 @@ import com.realestate.re.service.SavedService;
 @RequestMapping("/saved")
 @CrossOrigin("*")
 public class SavedController {
-    
+
     @Autowired
     private SavedService savedService;
 
-
-    //add saved
+    // add saved
     @PostMapping("/")
     public ResponseEntity<Saved> addSaved(@RequestBody Saved saved) {
-        Saved saved1 = new Saved();
-        saved1.setSaveId(saved.getSaveId());
-        saved1.setProperty(saved.getProperty());
-        saved1.setUser(saved.getUser());
-
-        return ResponseEntity.ok(this.savedService.addSaved(saved));
+        Saved addedSaved = savedService.addSaved(saved);
+        return ResponseEntity.ok(addedSaved);
     }
 
-    //get saved
+    // get saved
     @GetMapping("/{savedId}")
     public Saved getSaved(@PathVariable("savedId") Long saveId) {
         return this.savedService.getSaved(saveId);
     }
 
-    //get all saved
+    // get all saved
     @GetMapping("/")
     public Set<Saved> getAllSaved() {
         return this.savedService.getAllSaved();
     }
 
-    //delete saved
+    // delete saved
     @DeleteMapping("/{savedId}")
-    public void deleteSaved(@PathVariable("savedId") Long savedId) {
+    public ResponseEntity<ApiResponse>  deleteSaved(@PathVariable("savedId") Long savedId) {
         this.savedService.deleteSaved(savedId);
+        return new ResponseEntity(new ApiResponse("Saved deleted successfully :" +savedId, true), HttpStatus.OK);
     }
-    
-    //get saved of user
+
+    // get saved of user
     @GetMapping("/user/{uId}")
     public List<Saved> getSavedofUser(@PathVariable("uId") Long uId) {
         User user = new User();
@@ -73,6 +71,5 @@ public class SavedController {
     }
 
     // @GetMapping("/likeByProperty/{pId}")
-    
 
 }

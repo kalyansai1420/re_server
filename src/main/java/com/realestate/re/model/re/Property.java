@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.realestate.re.model.User;
+import com.realestate.re.repo.PropertyRepository;
 
 @Entity
 @Table(name = "property")
@@ -112,7 +114,7 @@ public class Property {
     }
 
     // one property has many images
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("property")
     private List<PropertyImage> images = new ArrayList<>();
 
@@ -124,15 +126,22 @@ public class Property {
         this.images = images;
     }
 
-    public void addImage(PropertyImage image) {
-        images.add(image);
-        image.setProperty(this);
-    }
+    // public void addImage(PropertyImage image) {
+    //     images.add(image);
+    //     image.setProperty(this);
+    // }
 
-    public void removeImage(PropertyImage image) {
-        images.remove(image);
-        image.setProperty(null);
-    }
+    // public void removeImage(PropertyImage image) {
+    //     images.remove(image);
+    //     image.setProperty(null);
+    // }
+
+    // @Transactional
+    // public Property getPropertyData(Long propertyId) {
+    //     // Code to retrieve the property data, including images
+    //     // Ensure the transactional boundary includes the retrieval of associated images
+    //     return PropertyRepository.findById(propertyId).orElse(null);
+    // }
 
     public Property() {
         super();

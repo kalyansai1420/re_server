@@ -14,8 +14,8 @@ import com.realestate.re.model.User;
 import com.realestate.re.model.re.Property;
 import com.realestate.re.model.re.Saved;
 import com.realestate.re.repo.SavedRepository;
+import com.realestate.re.repo.UserRepository;
 import com.realestate.re.service.SavedService;
-
 
 @Service
 public class SavedServiceImpl implements SavedService {
@@ -23,9 +23,16 @@ public class SavedServiceImpl implements SavedService {
     @Autowired
     private SavedRepository savedRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public Saved addSaved(Saved saved) {
-        return this.savedRepository.save(saved);
+        User user = saved.getUser();
+        Property property = saved.getProperty();
+        saved.setUser(user);
+        saved.setProperty(property);
+        return savedRepository.save(saved);
 
     }
 
@@ -50,8 +57,8 @@ public class SavedServiceImpl implements SavedService {
 
     @Override
     public void deleteSaved(Long saveId) {
-        Saved saved = new Saved();
-        saved.setSaveId(saveId);
+        Saved saved = this.savedRepository.findById(saveId).orElseThrow(
+				() -> new ResourceNotFoundException("Saved", " Id ", saveId));
         this.savedRepository.delete(saved);
     }
 
@@ -62,17 +69,17 @@ public class SavedServiceImpl implements SavedService {
 
     @Override
     public List<Map<String, Object>> countLikesByProperty() {
-       
+
         return savedRepository.countLikesByProperty();
-    
+
     }
 
     @Override
     public int getLikesByPropertyId(Property property) {
-    
+
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getLikesByPropertyId'");
-    
+
     }
 
 }

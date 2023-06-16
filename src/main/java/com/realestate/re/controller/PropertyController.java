@@ -78,7 +78,6 @@ public class PropertyController {
         property1.setActive(property.isActive());
         property1.setSoldOut(property.isSoldOut());
         property1.setCreatedAt(property.getCreatedAt());
-        property1.setUpdatedAt(property.getUpdatedAt());
 
         List<PropertyImage> images = property.getImages();
         if (images != null) {

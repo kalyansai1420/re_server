@@ -96,11 +96,10 @@ public class PropertyServiceImpl implements PropertyService {
         property1.setaState(property.getaState());
         property1.setActive(property.isActive());
         property1.setSoldOut(property.isSoldOut());
-        property1.setCreatedAt(property.getCreatedAt());
-        property1.setUpdatedAt(property.getUpdatedAt());
+        property1.setUpdatedAt(property.getCreatedAt());
 
         // Clear the existing images
-        property1.getImages().clear();
+        // property1.getImages().clear();
 
         // Add new images
         List<PropertyImage> newImages = property.getImages();
@@ -117,8 +116,9 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public void deleteProperty(Long pId) {
 
-        Property property = new Property();
-        property.setpId(pId);
+        Property property = this.propertyRepository.findById(pId)
+				.orElseThrow(
+						() -> new ResourceNotFoundException("property not found to delte in this for id : " + pId));
         this.propertyRepository.delete(property);
         
     }
