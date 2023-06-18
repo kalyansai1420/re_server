@@ -24,5 +24,7 @@ public interface SavedService {
 
     public List<Map<String, Object>> countLikesByProperty();
 
+    public List<Map<String, Object>> getLikesByPropertyDetails();
+
     public int getLikesByPropertyId(Property property);
 }

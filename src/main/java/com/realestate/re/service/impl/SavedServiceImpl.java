@@ -58,7 +58,7 @@ public class SavedServiceImpl implements SavedService {
     @Override
     public void deleteSaved(Long saveId) {
         Saved saved = this.savedRepository.findById(saveId).orElseThrow(
-				() -> new ResourceNotFoundException("Saved", " Id ", saveId));
+				() -> new ResourceNotFoundException("Hello", " Id ", saveId));
         this.savedRepository.delete(saved);
     }
 
@@ -74,6 +74,8 @@ public class SavedServiceImpl implements SavedService {
 
     }
 
+    
+
     @Override
     public int getLikesByPropertyId(Property property) {
 
@@ -81,5 +83,10 @@ public class SavedServiceImpl implements SavedService {
         throw new UnsupportedOperationException("Unimplemented method 'getLikesByPropertyId'");
 
     }
+
+    @Override
+    public List<Map<String, Object>> getLikesByPropertyDetails() {
+        return savedRepository.getLikesByPropertyDetails();
+  }
 
 }

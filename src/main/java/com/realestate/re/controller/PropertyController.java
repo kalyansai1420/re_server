@@ -148,4 +148,9 @@ public class PropertyController {
         return this.propertyService.getPropertyByUser(user);
     }
 
+    @GetMapping("/recently")
+    public List<Property> getPropertiesByTime() {
+        return this.propertyService.getPropertyByTime();
+    }
+
 }

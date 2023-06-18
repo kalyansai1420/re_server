@@ -20,6 +20,8 @@ public interface SavedRepository extends JpaRepository<Saved, Long> {
     @Query(value="select count(*) as likes,saved.p_id from saved group by p_id",nativeQuery = true)
     List<Map<String, Object>> countLikesByProperty();
 
+    @Query(value="SELECT COUNT(*) AS likes, property.* FROM saved INNER JOIN property ON saved.p_id = property.p_id GROUP BY saved.p_id limit 5;", nativeQuery = true)
+    List<Map<String, Object>> getLikesByPropertyDetails();   
 
     @Query(value = "SELECT COUNT(s) AS likes FROM Saved s WHERE s.property.p_id = :propertyId",nativeQuery=true)
     public int getLikesByPropertyId(Long propertyId);

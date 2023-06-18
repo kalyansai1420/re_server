@@ -114,7 +114,7 @@ public class Property {
     }
 
     // one property has many images
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("property")
     private List<PropertyImage> images = new ArrayList<>();
 

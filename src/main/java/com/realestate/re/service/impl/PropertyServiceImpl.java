@@ -21,13 +21,13 @@ import com.realestate.re.service.PropertyService;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
-    
+
     @Autowired
     private PropertyRepository propertyRepository;
 
     @Override
     public Property addProperty(Property property) {
-        
+
         Property local = this.propertyRepository.findBypName(property.getpName());
 
         if (local != null) {
@@ -36,7 +36,6 @@ public class PropertyServiceImpl implements PropertyService {
             local = this.propertyRepository.save(property);
         }
 
-        
         return local;
     }
 
@@ -48,79 +47,72 @@ public class PropertyServiceImpl implements PropertyService {
         } else {
             throw new ResourceNotFoundException("Property " + pId + " not found");
         }
-       
+
     }
 
     @Override
     public Property updateProperty(Property property) {
-        // Property property1 = this.propertyRepository.findById(pId).orElseThrow(
-        //         () -> new ResourceNotFoundException("Property", " Id ", pId));;
-        
-        Property property1 = new Property();
-        property1.setpId(property.getpId());
-        property1.setUser(property.getUser());
-        property1.setpAgeOfConstruction(property.getpAgeOfConstruction());
-        property1.setpArea(property.getpArea());
-        property1.setpBalcony(property.getpBalcony());
-        property1.setpBedroom(property.getpBedroom());
-        property1.setpDescription(property.getpDescription());
-        property1.setpFacing(property.getpFacing());
-        property1.setpBathroom(property.getpBathroom());
-        property1.setpFurnishedStatus(property.getpFurnishedStatus());
-        property1.setpName(property.getpName());
-        property1.setpOfferType(property.getpOfferType());
-        property1.setpPossesionStatus(property.getpPossesionStatus());
-        property1.setpPrice(property.getpPrice());
-        property1.setpPropertyType(property.getpPropertyType());
-        property1.setpRoomFloor(property.getpRoomFloor());
-        property1.setpTotalFloor(property.getpTotalFloor());
-        property1.setGardens(property.getGardens());
-        property1.setGym(property.getGym());
-        property1.setHospitals(property.getHospitals());
-        property1.setLift(property.getLift());
-        property1.setMarketArea(property.getMarketArea());
-        property1.setParkingArea(property.getParkingArea());
-        property1.setPlayground(property.getPlayground());
-        property1.setPowerBackup(property.getPowerBackup());
-        property1.setSchools(property.getSchools());
-        property1.setSecurity(property.getSecurity());
-        property1.setShoppingMall(property.getShoppingMall());
-        property1.setWaterSupply(property.getWaterSupply());
-        property1.setSaved(property.getSaved());
-        property1.setpBHK(property.getpBHK());
-        property1.setpPhoto(property.getpPhoto());
-        property1.setaArea(property.getaArea());
-        property1.setaCity(property.getaCity());
-        property1.setaLandmark(property.getaLandmark());
-        property1.setaPincode(property.getaPincode());
-        property1.setaState(property.getaState());
-        property1.setActive(property.isActive());
-        property1.setSoldOut(property.isSoldOut());
-        property1.setUpdatedAt(property.getCreatedAt());
+        Property existingProperty = this.propertyRepository.findById(property.getpId()).orElseThrow(
+                () -> new ResourceNotFoundException("Property", " Id ", property.getpId()));
+        ;
 
-        // Clear the existing images
-        // property1.getImages().clear();
+        // Property existingProperty = new Property();
+        existingProperty.setpId(property.getpId());
+        existingProperty.setUser(property.getUser());
+        existingProperty.setpAgeOfConstruction(property.getpAgeOfConstruction());
+        existingProperty.setpArea(property.getpArea());
+        existingProperty.setpBalcony(property.getpBalcony());
+        existingProperty.setpBedroom(property.getpBedroom());
+        existingProperty.setpDescription(property.getpDescription());
+        existingProperty.setpFacing(property.getpFacing());
+        existingProperty.setpBathroom(property.getpBathroom());
+        existingProperty.setpFurnishedStatus(property.getpFurnishedStatus());
+        existingProperty.setpName(property.getpName());
+        existingProperty.setpOfferType(property.getpOfferType());
+        existingProperty.setpPossesionStatus(property.getpPossesionStatus());
+        existingProperty.setpPrice(property.getpPrice());
+        existingProperty.setpPropertyType(property.getpPropertyType());
+        existingProperty.setpRoomFloor(property.getpRoomFloor());
+        existingProperty.setpTotalFloor(property.getpTotalFloor());
+        existingProperty.setGardens(property.getGardens());
+        existingProperty.setGym(property.getGym());
+        existingProperty.setHospitals(property.getHospitals());
+        existingProperty.setLift(property.getLift());
+        existingProperty.setMarketArea(property.getMarketArea());
+        existingProperty.setParkingArea(property.getParkingArea());
+        existingProperty.setPlayground(property.getPlayground());
+        existingProperty.setPowerBackup(property.getPowerBackup());
+        existingProperty.setSchools(property.getSchools());
+        existingProperty.setSecurity(property.getSecurity());
+        existingProperty.setShoppingMall(property.getShoppingMall());
+        existingProperty.setWaterSupply(property.getWaterSupply());
+        existingProperty.setSaved(property.getSaved());
+        existingProperty.setpBHK(property.getpBHK());
+        existingProperty.setpPhoto(property.getpPhoto());
+        existingProperty.setaArea(property.getaArea());
+        existingProperty.setaCity(property.getaCity());
+        existingProperty.setaLandmark(property.getaLandmark());
+        existingProperty.setaPincode(property.getaPincode());
+        existingProperty.setaState(property.getaState());
+        existingProperty.setActive(property.isActive());
+        existingProperty.setSoldOut(property.isSoldOut());
+        existingProperty.setUpdatedAt(property.getCreatedAt());
+        existingProperty.setImages(property.getImages());
+        // property.setImages(null);
+        // Property updatedProperty = this.propertyRepository.save(existingProperty);
+        // updatedProperty.setImages(existingProperty.getImages());
 
-        // Add new images
-        List<PropertyImage> newImages = property.getImages();
-        if (newImages != null) {
-            for (PropertyImage newImage : newImages) {
-                newImage.setProperty(property1);
-                property1.getImages().add(newImage);
-            }
-        }
-
-        return this.propertyRepository.save(property1);
+        return this.propertyRepository.save(existingProperty);
     }
 
     @Override
     public void deleteProperty(Long pId) {
 
         Property property = this.propertyRepository.findById(pId)
-				.orElseThrow(
-						() -> new ResourceNotFoundException("property not found to delte in this for id : " + pId));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("property not found to delte in this for id : " + pId));
         this.propertyRepository.delete(property);
-        
+
     }
 
     @Override
@@ -150,8 +142,13 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<Property> getPropertiesByType(String type) {
-   
+
         return this.propertyRepository.findPropertiesByType(type);
     }
-    
+
+    @Override
+    public List<Property> getPropertyByTime() {
+        return this.propertyRepository.getPropertiesByTime();
+    }
+
 }

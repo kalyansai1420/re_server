@@ -69,7 +69,17 @@ public class SavedController {
         List<Map<String, Object>> likesByProperty = savedService.countLikesByProperty();
         return ResponseEntity.ok(likesByProperty);
     }
+    @GetMapping("/likeByPropertydetails")
+    public ResponseEntity<List<Map<String, Object>>> getLikesByPropertyDetails() {
+        List<Map<String, Object>> likesByPropertydetails = savedService.getLikesByPropertyDetails();
+        return ResponseEntity.ok(likesByPropertydetails);
+    }
+
+
 
     // @GetMapping("/likeByProperty/{pId}")
+
+
+    
 
 }

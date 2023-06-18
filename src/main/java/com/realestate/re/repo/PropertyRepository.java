@@ -28,6 +28,10 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query(value = "select* from property where p_property_type =':propertyType' and active=true", nativeQuery = true)
     public List<Property> findPropertiesByType(@Param("propertyType") String propertyType);
 
+
+    @Query(value="SELECT * FROM property ORDER BY updated_at DESC LIMIT 5;",nativeQuery = true)
+    public List<Property> getPropertiesByTime();
+
     public List<Property> findByUser(User user);
 
 }
