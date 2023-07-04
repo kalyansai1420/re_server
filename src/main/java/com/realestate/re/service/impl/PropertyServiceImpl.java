@@ -9,6 +9,9 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.realestate.re.helper.ResourceFoundException;
@@ -26,6 +29,7 @@ public class PropertyServiceImpl implements PropertyService {
     private PropertyRepository propertyRepository;
 
     @Override
+    @CacheEvict(value="properties",allEntries=true)
     public Property addProperty(Property property) {
 
         Property local = this.propertyRepository.findBypName(property.getpName());
@@ -40,6 +44,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @Cacheable(value="properties",key="#pId")
     public Property getProperty(Long pId) {
         Optional<Property> property = this.propertyRepository.findById(pId);
         if (property.isPresent()) {
@@ -51,6 +56,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @CachePut(value="properties")
     public Property updateProperty(Property property) {
         Property existingProperty = this.propertyRepository.findById(property.getpId()).orElseThrow(
                 () -> new ResourceNotFoundException("Property", " Id ", property.getpId()));
@@ -106,6 +112,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @CacheEvict(value="properties", key="#pId")
     public void deleteProperty(Long pId) {
 
         Property property = this.propertyRepository.findById(pId)
@@ -116,6 +123,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @Cacheable("properties")
     public Set<Property> getProperties() {
         return new HashSet<>(this.propertyRepository.findAll());
     }

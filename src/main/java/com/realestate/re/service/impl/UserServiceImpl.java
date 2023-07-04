@@ -10,6 +10,9 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,11 +51,12 @@ public class UserServiceImpl implements UserService {
 
 	// creating user
 	@Override
+	@CacheEvict(value="users",allEntries=true)
 	public User createUser(User user, Set<UserRole> userRoles) throws Exception {
 
 		User local = this.userRepository.findByUsername(user.getUsername());
 		if (local != null) {
-			System.out.print("User already present");
+			log.debug("User already present");
 			throw new ResourceFoundException("User already exists");
 		} else {
 			// user create
@@ -64,29 +68,11 @@ public class UserServiceImpl implements UserService {
 		}
 		return local;
 
-		// Optional<User> usernameEntry =
-		// this.userRepository.findByUsername(user.getUsername());
-		// Optional<User> emailEntry = this.userRepository.findByEmail(user.getEmail());
-
-		// if (usernameEntry.isPresent()) {
-		// throw new ResourceFoundException("Username already exists try new username");
-		// }
-		// if (emailEntry.isPresent()) {
-		// throw new ResourceFoundException("Email already exists try new email");
-		// } else {
-		// // user create
-		// for (UserRole ur : userRoles) {
-		// roleRepository.save(ur.getRole());
-		// }
-		// user.getUserRoles().addAll(userRoles);
-		// this.userRepository.save(user);
-		// }
-
-		// return
 
 	}
 
 	@Override
+	@CachePut(value="users")
 	public User updateUser(User user) {
 		User existingUser = userRepository.findById(user.getuId())
 				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", user.getuId()));
@@ -114,76 +100,34 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(existingUser);
 	}
 
-	// //updating user
-	// @Override
-	// public User updateUser(User user) {
-	// User existingUser = userRepository.findById(user.getuId())
-	// .orElseThrow(() -> new ResourceNotFoundException("User", "Id",
-	// user.getuId()));
-	// existingUser.setUsername(user.getUsername());
-	// existingUser.setEmail(user.getEmail());
-	// existingUser.setPhonenumber(user.getPhonenumber());
-	// existingUser.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-	// existingUser.setUserRoles(user.getUserRoles());
-	// return userRepository.save(existingUser);
-	// }
-	// @Override
-	// public User updateUser(User user) {
-	// // Find the existing user by ID
-	// User existingUser = userRepository.findById(user.getuId())
-	// .orElseThrow(() -> new ResourceNotFoundException("User", "Id",
-	// user.getuId()));
-
-	// // Update the user's properties
-	// existingUser.setUsername(user.getUsername());
-	// existingUser.setEmail(user.getEmail());
-	// existingUser.setPhonenumber(user.getPhonenumber());
-	// existingUser.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-	// //String newPassword = user.getPassword();
-	// // if (newPassword != null && !newPassword.isEmpty()) {
-	// // // Use BCryptPasswordEncoder to encode the new password
-	// // BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	// // String encodedPassword = passwordEncoder.encode(newPassword);
-	// // existingUser.setPassword(encodedPassword);
-	// // }
-
-	// existingUser.setUserRoles(user.getUserRoles());
-
-	// // Save the updated user
-	// return userRepository.save(existingUser);
-	// }
 
 	@Override
+	@Cacheable(value="users",key="#uId")
 	public User getUser(Long uId) {
-
-		// User user = this.userRepository.findByUsername(username).orElseThrow(() ->
-		// new ResourceNotFoundException("User", " Name ", username));
-		// User user = this.userRepository.findByUsername(
-		// username).orElseThrow(
-		// () -> new ResourceNotFoundException("User", " Name ", username));
 		User user = this.userRepository.findById(uId).orElseThrow(
 				() -> new ResourceNotFoundException("User", " Id ", uId));
 
 		return user;
 	}
 
+	// @Override
+	// public User getUserById(Long uId) {
+
+	// 	User user = this.userRepository.findById(uId).orElseThrow(
+	// 			() -> new ResourceNotFoundException("User", " Id ", uId));
+	// 	return user;
+
+	// }
+
 	@Override
-	public User getUserById(Long uId) {
-
-		User user = this.userRepository.findById(uId).orElseThrow(
-				() -> new ResourceNotFoundException("User", " Id ", uId));
-		return user;
-
-	}
-
-	@Override
+	@Cacheable("users")
 	public Set<User> getAllUsers() {
-
 		return new HashSet<>(this.userRepository.findAll());
 
 	}
 
 	@Override
+	@CacheEvict(value="users", key="#uId")
 	public void deleteUser(Long uId) {
 		User user = this.userRepository.findById(uId).orElseThrow(
 				() -> new ResourceNotFoundException("User", " Id ", uId));

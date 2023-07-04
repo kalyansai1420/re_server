@@ -18,7 +18,7 @@ public interface UserService {
 	public User getUser(Long uId);
 
 	//get user by Id
-	public User getUserById(Long uId);
+	// public User getUserById(Long uId);
 	
 	//get all users
 	public Set<User> getAllUsers();

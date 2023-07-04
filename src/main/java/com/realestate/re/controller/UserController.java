@@ -69,30 +69,7 @@ public class UserController {
 		return this.userService.createUser(user, roles);
 	}
 
-	// @PutMapping("/")
-	// public ResponseEntity<User> updateUser(@RequestBody User user) {
-	// 	// Find the existing user by ID
-	// 	// User existingUser = userService.getUserById(user.getuId());
-
-	// 	// // Update the user's properties
-	// 	// existingUser.setUsername(user.getUsername());
-	// 	// existingUser.setEmail(user.getEmail());
-	// 	// existingUser.setPhonenumber(user.getPhonenumber());
-	// 	// // Check if the password needs to be updated
-	// 	// String newPassword = user.getPassword();
-	// 	// if (newPassword != null && !newPassword.isEmpty()) {
-	// 	// 	// Use BCryptPasswordEncoder to encode the new password
-	// 	// 	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	// 	// 	String encodedPassword = passwordEncoder.encode(newPassword);
-	// 	// 	existingUser.setPassword(encodedPassword);
-	// 	// }
-	// 	// existingUser.setUserRoles(user.getUserRoles());
-
-	// 	// Save the updated user
-	// 	User updatedUser = this.userService.updateUser(user);
-
-	// 	return ResponseEntity.ok(updatedUser);
-	// }
+	
 
 	//working code
 	@PutMapping("/")

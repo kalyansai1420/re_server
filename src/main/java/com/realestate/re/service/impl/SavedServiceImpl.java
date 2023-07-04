@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.realestate.re.helper.ResourceNotFoundException;
@@ -27,6 +29,7 @@ public class SavedServiceImpl implements SavedService {
     private UserRepository userRepository;
 
     @Override
+    @CacheEvict(value="saveds",allEntries=true)
     public Saved addSaved(Saved saved) {
         User user = saved.getUser();
         Property property = saved.getProperty();
@@ -37,6 +40,7 @@ public class SavedServiceImpl implements SavedService {
     }
 
     @Override
+    @Cacheable("saveds")
     public Set<Saved> getAllSaved() {
 
         return new HashSet<>(this.savedRepository.findAll());
@@ -44,6 +48,7 @@ public class SavedServiceImpl implements SavedService {
     };
 
     @Override
+    @Cacheable(value="saveds",key="#saveId")
     public Saved getSaved(Long saveId) {
 
         Optional<Saved> saved = this.savedRepository.findById(saveId);
@@ -56,6 +61,7 @@ public class SavedServiceImpl implements SavedService {
     }
 
     @Override
+    @CacheEvict(value="saveds", key="#saveId")
     public void deleteSaved(Long saveId) {
         Saved saved = this.savedRepository.findById(saveId).orElseThrow(
 				() -> new ResourceNotFoundException("Hello", " Id ", saveId));
